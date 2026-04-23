@@ -12,10 +12,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-
-    <!-- Three.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet" />
 
     <!-- Tailwind Config -->
     <script id="tailwind-config">
@@ -24,7 +23,7 @@
                 extend: {
                     colors: {
                         "primary": "#0A2B43",
-                        "secondary": "#a38757",
+                        "secondary": "#a38757", /* Oro/bronzo lussuoso raffinato */
                         "secondary-hover": "#8c7247",
                         "surface": "#fbfbfb",
                         "surface-alt": "#f3f4f6",
@@ -44,36 +43,9 @@
         }
     </script>
 
-    <!-- CSS Personalizzato -->
+    <!-- CSS Personalizzato per Animazioni e Rifiniture -->
     <style>
-        body {
-            overflow: hidden; /* Evita lo scroll nella pagina provvisoria */
-        }
-
-        /* Background Gradient */
-        .bg-gradient-animate {
-            background: linear-gradient(-45deg, #0A2B43, #05131e, #0A2B43, #111827);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        #hero-canvas-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* Animazioni di Rivelazione */
+        /* Animazioni di Rivelazione allo Scorrimento (e caricamento) */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -88,44 +60,49 @@
         .delay-100 { transition-delay: 100ms; }
         .delay-200 { transition-delay: 200ms; }
         .delay-300 { transition-delay: 300ms; }
+
+        /* Sfondo animato gradiente */
+        .bg-gradient-animate {
+            background: linear-gradient(-45deg, #0A2B43, #0A2B43, #0A2B43, #222222);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
     </style>
 </head>
 
 <body class="bg-primary text-text-main font-body antialiased selection:bg-secondary selection:text-white">
 
     <main>
-        <!-- Sezione Hero -->
-        <section class="relative h-screen flex items-center justify-center overflow-hidden bg-gradient-animate border-b-8 border-secondary">
+        <!-- Sezione Hero (A Tutto Schermo: h-screen) -->
+        <section class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-gradient-animate border-b-8 border-secondary">
+            <!-- Sovrapposizione Gradiente -->
+            <div class="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary/10 via-transparent to-transparent"></div>
 
-            <!-- Contenitore Animazione 3D (Z-Index 0) -->
-            <div id="hero-canvas-container"></div>
-
-            <!-- Sovrapposizione Gradiente per leggibilità -->
-            <div class="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-primary/90 pointer-events-none"></div>
-
-            <!-- UI Overlay - Messaggio Sito in Lavorazione -->
-            <!-- Parte invisibile, poi si dissolve grazie a JS (opacity-0 -> opacity-100) -->
-            <div id="hero-ui-layer" class="absolute inset-0 z-20 pointer-events-none flex flex-col items-center justify-start pt-10 md:pt-16 opacity-0 transition-opacity duration-1000">
-                
-                <!-- Il contenuto effettivo ha pointer-events-auto per permettere il click sul bottone -->
-                <div class="pointer-events-auto text-center max-w-3xl mx-4 md:mx-auto px-8 md:px-12 py-8 md:py-12 bg-primary/40 backdrop-blur-md border border-white/10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] flex flex-col items-center">
+            <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full">
+                <div class="max-w-4xl mx-auto text-center flex flex-col items-center justify-center">
                     
                     <!-- Logo Animato -->
-                    <div class="mb-5 md:mb-8">
-                        <img src="logo.png" alt="CCM Studio Legale" class="h-16 md:h-24 w-auto filter brightness-0 invert opacity-90 transition-all duration-500 hover:opacity-100 drop-shadow-lg">
+                    <div class="reveal active mb-10">
+                        <img src="logo.png" alt="CCM Studio Legale" class="h-24 md:h-32 w-auto filter brightness-0 invert opacity-90 transition-all duration-500 hover:opacity-100">
                     </div>
 
-                    <span class="block text-secondary text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-medium mb-3 md:mb-4 drop-shadow-md">
+                    <span class="block text-secondary text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-medium mb-6 md:mb-8 reveal active delay-100">
                         CCM Studio Legale
                     </span>
                     
-                    <h1 class="font-headline text-4xl md:text-5xl lg:text-6xl text-white leading-[1.1] md:leading-[1.05] mb-6 md:mb-8 tracking-tight drop-shadow-xl">
+                    <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl text-white leading-[1.1] md:leading-[1.05] mb-8 md:mb-10 tracking-tight reveal active delay-200">
                         Sito in Lavorazione <br class="hidden md:block">
-                        <span class="italic font-light text-white/90 text-2xl md:text-3xl mt-3 block">Tornate a trovarci presto.</span>
+                        <span class="italic font-light text-white/90 text-3xl md:text-5xl mt-4 block">Tornate a trovarci presto.</span>
                     </h1>
                     
-                    <div class="flex flex-col md:flex-row items-center justify-center w-full md:w-auto mt-2">
-                        <a href="mailto:info@ccmstudiolegale.it" class="w-full md:w-auto bg-secondary text-white px-10 py-4 text-[11px] uppercase tracking-[0.15em] font-medium hover:bg-white hover:text-primary transition-all duration-500 shadow-xl rounded-sm">
+                    <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-8 reveal active delay-300 w-full md:w-auto mt-8">
+                        <a href="mailto:ccmstudiolegale1@gmail.com" class="w-full md:w-auto bg-secondary text-white px-10 py-4 text-[11px] uppercase tracking-[0.15em] font-medium hover:bg-white hover:text-primary transition-all duration-500">
                             Contattaci
                         </a>
                     </div>
@@ -134,362 +111,16 @@
         </section>
     </main>
 
-    <!-- JAVASCRIPT: Integrazione 3D Cinematografica e Interazioni -->
+    <!-- JavaScript per Interazioni -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
-            // ==========================================
-            // --- SCENA 3D CINEMATOGRAFICA HERO ---
-            // ==========================================
-            const container = document.getElementById('hero-canvas-container');
-            const scene = new THREE.Scene();
-
-            // Nebbia profonda per un'atmosfera elegante
-            scene.fog = new THREE.FogExp2(0x0A2B43, 0.045);
-
-            // Telecamera e Renderer
-            // Allarghiamo il campo visivo (FOV) se ci troviamo su smartphone per non tagliare l'immagine
-            const initialFov = window.innerWidth < 768 ? 58 : 38;
-            const camera = new THREE.PerspectiveCamera(initialFov, window.innerWidth / window.innerHeight, 0.1, 100);
-
-            // La telecamera parte in inquadratura "MACRO" vicinissima all'angolo della scatola
-            camera.position.set(2, -0.2, 4);
-
-            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-            renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            renderer.toneMappingExposure = 1.1;
-            container.appendChild(renderer.domElement);
-
-            // --- ILLUMINAZIONE DA STUDIO ---
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-            scene.add(ambientLight);
-
-            // Luce principale frontale/laterale (sole)
-            const dirLight = new THREE.DirectionalLight(0xfff5e6, 3.5);
-            dirLight.position.set(8, 15, 6);
-            dirLight.castShadow = true;
-            dirLight.shadow.mapSize.width = 2048;
-            dirLight.shadow.mapSize.height = 2048;
-            dirLight.shadow.bias = -0.0001;
-            scene.add(dirLight);
-
-            // Luce di contorno bluastra (Rim light) per staccare la scatola scura dallo sfondo scuro
-            const rimLight = new THREE.DirectionalLight(0xaaccff, 2.0);
-            rimLight.position.set(-10, 5, -10);
-            scene.add(rimLight);
-
-            // --- TESTO INTERNO (Effetto Stampa Foil Oro) ---
-            const textCanvas = document.createElement('canvas');
-            const cw = 2048, ch = 1638;
-            textCanvas.width = cw; textCanvas.height = ch;
-            const ctx = textCanvas.getContext('2d');
-            const textTexture = new THREE.CanvasTexture(textCanvas);
-            textTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
-
-            function drawCardText() {
-                // Sfondo carta interna (Blu scuro/Nero inchiostro)
-                ctx.fillStyle = '#05131e';
-                ctx.fillRect(0, 0, cw, ch);
-
-                // Creiamo un gradiente dorato per simulare la lamina metallica
-                const goldGradient = ctx.createLinearGradient(0, 0, cw, ch);
-                goldGradient.addColorStop(0, '#e2c598');
-                goldGradient.addColorStop(0.5, '#a38757');
-                goldGradient.addColorStop(1, '#6b5430');
-
-                // Cornice
-                ctx.strokeStyle = goldGradient;
-                ctx.lineWidth = 12;
-                ctx.strokeRect(100, 100, cw - 200, ch - 200);
-
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-
-                // Sottotitolo
-                ctx.fillStyle = goldGradient;
-                ctx.font = '600 38px "Inter", sans-serif';
-                ctx.letterSpacing = "22px";
-                ctx.fillText('ESPERIENZA LEGALE PREMIUM', cw / 2, ch / 2 - 260);
-
-                // CCM Studio Legale
-                ctx.fillStyle = '#ffffff';
-                ctx.font = 'bold 210px "Playfair Display", serif';
-                ctx.letterSpacing = "2px";
-                ctx.shadowColor = "rgba(0,0,0,0.5)";
-                ctx.shadowBlur = 10;
-                ctx.fillText('CCM Studio Legale', cw / 2, ch / 2 - 20);
-
-                // Slogan
-                ctx.shadowBlur = 0;
-                ctx.fillStyle = goldGradient;
-                ctx.font = 'italic 300 70px "Playfair Display", serif';
-                ctx.fillText('L\'Eccellenza al tuo fianco.', cw / 2, ch / 2 + 230);
-
-                textTexture.needsUpdate = true;
-            }
-            drawCardText();
-            document.fonts.ready.then(drawCardText);
-
-            // --- MATERIALE CARTONE SCURO PREMIUM ---
-            function createAdvancedCardboardTextures() {
-                const size = 1024;
-                const canvasDiffuse = document.createElement('canvas');
-                const canvasBump = document.createElement('canvas');
-                canvasDiffuse.width = canvasBump.width = size;
-                canvasDiffuse.height = canvasBump.height = size;
-                const ctxD = canvasDiffuse.getContext('2d');
-                const ctxB = canvasBump.getContext('2d');
-
-                ctxD.fillStyle = '#1e1e22'; // Grigio Antracite scurissimo e caldo
-                ctxD.fillRect(0, 0, size, size);
-
-                ctxB.fillStyle = '#808080';
-                ctxB.fillRect(0, 0, size, size);
-
-                // Fluting (Ondulazione del cartone)
-                const fluteWidth = 22;
-                for (let i = 0; i < size; i += fluteWidth) {
-                    const gradientD = ctxD.createLinearGradient(i, 0, i + fluteWidth, 0);
-                    gradientD.addColorStop(0, 'rgba(0,0,0, 0.0)');
-                    gradientD.addColorStop(0.5, 'rgba(0,0,0, 0.4)');
-                    gradientD.addColorStop(1, 'rgba(0,0,0, 0.0)');
-                    ctxD.fillStyle = gradientD;
-                    ctxD.fillRect(i, 0, fluteWidth, size);
-
-                    const gradientB = ctxB.createLinearGradient(i, 0, i + fluteWidth, 0);
-                    gradientB.addColorStop(0, '#808080');
-                    gradientB.addColorStop(0.5, '#c0c0c0');
-                    gradientB.addColorStop(1, '#808080');
-                    ctxB.fillStyle = gradientB;
-                    ctxB.fillRect(i, 0, fluteWidth, size);
-                }
-
-                // Grana e polpa tattile
-                const imgD = ctxD.getImageData(0, 0, size, size);
-                const imgB = ctxB.getImageData(0, 0, size, size);
-                for (let i = 0; i < imgD.data.length; i += 4) {
-                    const noise = (Math.random() - 0.5) * 18;
-                    imgD.data[i] = Math.max(0, Math.min(255, imgD.data[i] + noise));
-                    imgD.data[i + 1] = Math.max(0, Math.min(255, imgD.data[i + 1] + noise));
-                    imgD.data[i + 2] = Math.max(0, Math.min(255, imgD.data[i + 2] + noise));
-
-                    const bNoise = (Math.random() - 0.5) * 60;
-                    const finalBump = Math.max(0, Math.min(255, imgB.data[i] + bNoise));
-                    imgB.data[i] = imgB.data[i + 1] = imgB.data[i + 2] = finalBump;
-                }
-                ctxD.putImageData(imgD, 0, 0);
-                ctxB.putImageData(imgB, 0, 0);
-
-                const texD = new THREE.CanvasTexture(canvasDiffuse);
-                const texB = new THREE.CanvasTexture(canvasBump);
-                texD.wrapS = texD.wrapT = THREE.RepeatWrapping;
-                texB.wrapS = texB.wrapT = THREE.RepeatWrapping;
-                texD.repeat.set(4, 4);
-                texB.repeat.set(4, 4);
-
-                return { diffuse: texD, bump: texB };
-            }
-
-            const textures = createAdvancedCardboardTextures();
-            if (renderer.capabilities.getMaxAnisotropy) {
-                textures.diffuse.anisotropy = renderer.capabilities.getMaxAnisotropy();
-                textures.bump.anisotropy = renderer.capabilities.getMaxAnisotropy();
-            }
-
-            const boxMaterial = new THREE.MeshPhysicalMaterial({
-                color: 0xffffff,
-                map: textures.diffuse,
-                bumpMap: textures.bump,
-                bumpScale: 0.015,
-                roughness: 1.0,
-                metalness: 0.0,
-                side: THREE.DoubleSide
-            });
-
-            // --- COSTRUZIONE SCATOLA ---
-            const boxGroup = new THREE.Group();
-            scene.add(boxGroup);
-            boxGroup.position.y = -1.0;
-
-            const w = 3.6, d = 2.8, h = 1.0, t = 0.03, gap = 0.012;
-
-            function createWall(width, height, depth, x, y, z) {
-                const mesh = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), boxMaterial);
-                mesh.position.set(x, y, z);
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
-                return mesh;
-            }
-
-            // TRAY Base
-            const trayW = w - 0.08, trayD = d - 0.08;
-            const tray = new THREE.Group();
-            boxGroup.add(tray);
-            tray.add(createWall(trayW, t, trayD, 0, t / 2, 0));
-            tray.add(createWall(t, h, trayD, -trayW / 2 + t / 2, h / 2, 0));
-            tray.add(createWall(t, h, trayD, trayW / 2 - t / 2, h / 2, 0));
-            tray.add(createWall(trayW - t * 2, h, t, 0, h / 2, -trayD / 2 + t / 2));
-            tray.add(createWall(trayW - t * 2, h, t, 0, h / 2, trayD / 2 - t / 2));
-
-            // CARD INTERNA
-            const cardMat = new THREE.MeshStandardMaterial({ map: textTexture, roughness: 0.4, metalness: 0.1 });
-            const card = new THREE.Mesh(new THREE.PlaneGeometry(trayW - 0.15, trayD - 0.15), cardMat);
-            card.rotation.x = -Math.PI / 2;
-            card.position.y = t + 0.02;
-            card.receiveShadow = true;
-            boxGroup.add(card);
-
-            // LUCE INTERNA
-            const insideLight = new THREE.PointLight(0xffdfaa, 0, 6); // Luce calda dorata
-            insideLight.position.set(0, h * 0.4, 0);
-            insideLight.castShadow = false;
-            boxGroup.add(insideLight);
-
-            // CARDINE E COPERCHIO
-            const hinge = new THREE.Group();
-            hinge.position.set(0, h, -trayD / 2 + t / 2);
-            boxGroup.add(hinge);
-
-            const lidGroup = new THREE.Group();
-            hinge.add(lidGroup);
-            lidGroup.add(createWall(w, t, d, 0, t / 2, d / 2 - t / 2)); // Tetto
-
-            const lipH = 0.35;
-            lidGroup.add(createWall(w, lipH, t, 0, -lipH / 2 + t / 2, d - t / 2 + gap)); // Front
-            lidGroup.add(createWall(t, lipH, d + gap * 2, -w / 2 + t / 2 - gap, -lipH / 2 + t / 2, d / 2 - t / 2)); // Left
-            lidGroup.add(createWall(t, lipH, d + gap * 2, w / 2 - t / 2 + gap, -lipH / 2 + t / 2, d / 2 - t / 2)); // Right
-
-            // Pavimento invisibile per ombre giganti e teatrali
-            const floor = new THREE.Mesh(
-                new THREE.PlaneGeometry(200, 200),
-                new THREE.ShadowMaterial({ opacity: 0.75 }) // Ombra scurissima
-            );
-            floor.rotation.x = -Math.PI / 2;
-            floor.position.y = -1.0;
-            floor.receiveShadow = true;
-            scene.add(floor);
-
-            // --- PARTICELLE CINEMATICHE ---
-            const particlesCount = 300;
-            const posArray = new Float32Array(particlesCount * 3);
-            const scaleArray = new Float32Array(particlesCount);
-            for (let i = 0; i < particlesCount; i++) {
-                posArray[i * 3] = (Math.random() - 0.5) * 20;
-                posArray[i * 3 + 1] = (Math.random() - 0.2) * 15;
-                posArray[i * 3 + 2] = (Math.random() - 0.5) * 20;
-                scaleArray[i] = Math.random();
-            }
-            const particlesGeo = new THREE.BufferGeometry();
-            particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            particlesGeo.setAttribute('aScale', new THREE.BufferAttribute(scaleArray, 1));
-
-            const particlesMat = new THREE.ShaderMaterial({
-                uniforms: { uTime: { value: 0 }, uColor: { value: new THREE.Color(0xa38757) } },
-                vertexShader: `
-                    attribute float aScale;
-                    varying float vAlpha;
-                    void main() {
-                        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-                        gl_PointSize = (40.0 * aScale) * (1.0 / -mvPosition.z);
-                        vAlpha = aScale;
-                        gl_Position = projectionMatrix * mvPosition;
-                    }
-                `,
-                fragmentShader: `
-                    uniform vec3 uColor;
-                    varying float vAlpha;
-                    void main() {
-                        float dist = length(gl_PointCoord - vec2(0.5));
-                        if (dist > 0.5) discard;
-                        float alpha = (0.5 - dist) * 2.0 * vAlpha * 0.8;
-                        gl_FragColor = vec4(uColor, alpha);
-                    }
-                `,
-                transparent: true,
-                blending: THREE.AdditiveBlending,
-                depthWrite: false
-            });
-            const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
-            scene.add(particlesMesh);
-
-            // --- ANIMAZIONE CINEMATOGRAFICA COREOGRAFATA E REVEAL UI ---
-            const clock = new THREE.Clock();
-            let isOpen = false;
-            let currentTarget = new THREE.Vector3(0, -0.5, 0); // Target iniziale Macro
-
-            // Timing teatrale
+            // Animazione iniziale al caricamento
+            const revealElements = document.querySelectorAll('.reveal');
             setTimeout(() => {
-                isOpen = true; // La scatola si apre
-                
-                // Rivela il contenuto UI (Sito in lavorazione, Logo e Pulsante) dopo 2 secondi
-                setTimeout(() => {
-                    const uiLayer = document.getElementById('hero-ui-layer');
-                    if (uiLayer) {
-                        uiLayer.classList.remove('opacity-0');
-                        uiLayer.classList.add('opacity-100');
-                    }
-                }, 2000);
-
-            }, 1800); // Pausa prolungata prima dell'apertura
-
-            function animate3D() {
-                requestAnimationFrame(animate3D);
-                const delta = Math.min(clock.getDelta(), 0.1);
-                const time = clock.getElapsedTime();
-
-                // Verifica se siamo su schermi mobile
-                const isMobile = window.innerWidth < 768;
-
-                // 1. Apertura coperchio
-                const targetLidRot = isOpen ? -Math.PI * 0.80 : 0;
-                hinge.rotation.x += (targetLidRot - hinge.rotation.x) * 1.5 * delta;
-
-                // 2. Animazione Telecamera responsiva
-                if (isOpen) {
-                    // Posizione camera dinamica: allontana e sposta più in basso su smartphone
-                    const targetCamPos = isMobile ? new THREE.Vector3(0, 6.5, 4.5) : new THREE.Vector3(0, 5.5, 3.5);
-                    const targetLookAt = isMobile ? new THREE.Vector3(0, 0.0, -0.5) : new THREE.Vector3(0, 1.0, -0.5);
-
-                    camera.position.lerp(targetCamPos, 1.0 * delta);
-                    currentTarget.lerp(targetLookAt, 1.2 * delta);
-                    insideLight.intensity = THREE.MathUtils.lerp(insideLight.intensity, 2.5, 1.5 * delta);
-                } else {
-                    // Posizione camera dinamica iniziale (dettaglio MACRO)
-                    const targetCamPos = isMobile ? new THREE.Vector3(3.0, 1.0, 4.5) : new THREE.Vector3(2.5, 0.5, 3.5);
-                    camera.position.lerp(targetCamPos, 1.5 * delta);
-                    currentTarget.lerp(new THREE.Vector3(1, -0.5, 1), 1.5 * delta);
-                }
-                camera.lookAt(currentTarget);
-
-                // 3. Floating organico
-                boxGroup.position.y = -1.0 + Math.sin(time * 1.2) * 0.04;
-                boxGroup.rotation.y = Math.sin(time * 0.5) * 0.02;
-
-                // 4. Animazione Particelle
-                particlesMesh.rotation.y = time * 0.03;
-                particlesMesh.position.y = time * 0.15;
-                if (particlesMesh.position.y > 5) {
-                    particlesMesh.position.y = -5;
-                }
-
-                renderer.render(scene, camera);
-            }
-
-            // Responsività continua durante il ridimensionamento della finestra
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                // Aggiorna il FOV anche quando l'utente ruota lo smartphone o ridimensiona
-                camera.fov = window.innerWidth < 768 ? 58 : 38;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            });
-
-            animate3D();
+                revealElements.forEach(el => el.classList.add('active'));
+            }, 100);
         });
     </script>
 </body>
+
 </html>
