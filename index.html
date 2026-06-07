@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>CCM Studio Legale | Sito in Lavorazione</title>
-
+    <title>CCM Studio Legale</title>
+    <link rel="icon" type="image/png" href="img/logo/logo.png" />
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
@@ -14,6 +14,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
 
     <!-- Tailwind Config -->
@@ -45,7 +47,151 @@
 
     <!-- CSS Personalizzato per Animazioni e Rifiniture -->
     <style>
-        /* Animazioni di Rivelazione allo Scorrimento (e caricamento) */
+        /* Resa icone fluida */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Effetto Sottolineatura Editoriale */
+        .editorial-underline {
+            position: relative;
+            display: inline-block;
+        }
+
+        .editorial-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background-color: currentColor;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .editorial-underline:hover::after {
+            width: 100%;
+        }
+
+        /* Stati dinamici della Navbar */
+        .nav-transparent {
+            background-color: transparent;
+            border-bottom-color: transparent;
+        }
+
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom-color: rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        .nav-scrolled .nav-text {
+            color: #0a0a0a !important;
+        }
+
+        .nav-scrolled .nav-btn {
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+
+        /* ---------- MENU MOBILE STYLES ELEGANTE ---------- */
+        .hamburger-line {
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.4s ease,
+                width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.4s ease;
+            background-color: #ffffff;
+        }
+
+        .nav-scrolled .hamburger-line {
+            background-color: #0a0a0a !important;
+        }
+
+        body.menu-open .hamburger-line {
+            background-color: #ffffff !important;
+        }
+
+        /* Colore linee quando si scorre la pagina (nero) */
+
+        /* Trasformazione in X */
+
+        body.menu-open #line-1 {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        body.menu-open #line-2 {
+            opacity: 0;
+            width: 0 !important;
+        }
+
+        body.menu-open #line-3 {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
+        /* Visibilità e animazione del Container Menu Mobile */
+        #mobile-menu-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body.menu-open #mobile-menu-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+
+        body.menu-open #navbar {
+            background: transparent !important;
+            border-bottom-color: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .nav-scrolled:not(.menu-open) .nav-logo {
+            filter: invert(1) brightness(0);
+        }
+
+        body.menu-open .nav-logo {
+            filter: brightness(0) invert(1) !important;
+        }
+
+        /* Animazione a cascata per i link del menu */
+        .mobile-nav-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body.menu-open .mobile-nav-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Ritardi in cascata per ogni link */
+        .mobile-nav-item:nth-child(1) {
+            transition-delay: 150ms;
+        }
+
+        .mobile-nav-item:nth-child(2) {
+            transition-delay: 250ms;
+        }
+
+        .mobile-nav-item:nth-child(3) {
+            transition-delay: 350ms;
+        }
+
+        .mobile-nav-item:nth-child(4) {
+            transition-delay: 450ms;
+        }
+
+        .mobile-nav-item:nth-child(5) {
+            transition-delay: 550ms;
+        }
+
+        /* ---------------------------------------- */
+
+        /* Animazioni di Rivelazione allo Scorrimento */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -57,9 +203,27 @@
             transform: translateY(0);
         }
 
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
+        .delay-100 {
+            transition-delay: 100ms;
+        }
+
+        .delay-200 {
+            transition-delay: 200ms;
+        }
+
+        .delay-300 {
+            transition-delay: 300ms;
+        }
+
+        /* Input Form Personalizzati */
+        .custom-input:focus~.input-border {
+            width: 100%;
+        }
+
+        .input-border {
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
         /* Sfondo animato gradiente */
         .bg-gradient-animate {
@@ -69,56 +233,635 @@
         }
 
         @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
     </style>
 </head>
 
-<body class="bg-primary text-text-main font-body antialiased selection:bg-secondary selection:text-white">
+<body class="bg-surface text-text-main font-body antialiased selection:bg-secondary selection:text-white">
+
+    <!-- Navbar Superiore -->
+    <nav id="navbar"
+        class="fixed top-0 w-full z-[60] transition-all duration-700 nav-transparent border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-5 md:px-6 lg:px-12 h-20 md:h-24 flex items-center justify-between">
+
+            <!-- Logo -->
+            <div class="flex items-center relative z-[65]">
+                <a href="#"
+                    class="nav-text text-white font-headline text-xl md:text-3xl tracking-tight transition-colors duration-500">
+                    <img src="img/logo/logo.png" alt="CCM Studio Legale"
+                        class="h-16 md:h-20 w-auto nav-logo transition-all duration-500">
+                </a>
+            </div>
+
+            <!-- Menu Desktop -->
+            <div class="hidden lg:flex space-x-10 items-center relative z-[65]">
+                <a class="nav-text text-white/90 text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300"
+                    href="index.html">HOME</a>
+                <a class="nav-text text-white/90 text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300"
+                    href="studio.html">LO STUDIO</a>
+                <a class="nav-text text-white/90 text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300"
+                    href="competenze.html">COMPETENZE</a>
+                <a class="nav-text text-white/90 text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300"
+                    href="professionisti.html">PROFESSIONISTI</a>
+
+            </div>
+
+            <!-- Pulsante CTA Desktop -->
+            <div class="hidden lg:block relative z-[65]">
+                <a href="#contatti"
+                    class="nav-btn inline-block bg-white text-primary px-8 py-3.5 text-[11px] uppercase tracking-[0.15em] font-medium hover:bg-secondary hover:text-white transition-all duration-500">
+                    CONTATTACI
+                </a>
+            </div>
+
+            <!-- Pulsante Menu Hamburger Elegante (Solo Mobile) -->
+            <button id="mobile-menu-btn" aria-label="Apri menu"
+                class="lg:hidden relative z-[65] flex flex-col justify-center items-end w-12 h-12 cursor-pointer focus:outline-none bg-transparent group">
+                <!-- Linee ultra-sottili (1px) con lunghezza sfalsata per maggior eleganza -->
+                <span id="line-1" class="hamburger-line w-7 h-[1px] block mb-[6px]"></span>
+                <span id="line-2" class="hamburger-line w-5 h-[1px] block mb-[6px] group-hover:w-7"></span>
+                <span id="line-3" class="hamburger-line w-7 h-[1px] block"></span>
+            </button>
+
+        </div>
+    </nav>
+
+    <!-- Overlay Menu Mobile a Schermo Intero -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-primary z-[55] flex flex-col justify-center items-center">
+        <ul class="flex flex-col items-center space-y-8 md:space-y-10 text-center w-full px-6">
+            <li class="mobile-nav-item w-full"><a href="index.html"
+                    class="block text-white text-3xl md:text-4xl font-headline tracking-widest hover:text-secondary transition-colors duration-300">HOME</a>
+            </li>
+            <li class="mobile-nav-item w-full">
+                <a href="studio.html"
+                    class="block text-white text-3xl md:text-4xl font-headline tracking-widest hover:text-secondary transition-colors duration-300">LO
+                    STUDIO</a>
+            </li>
+            <li class="mobile-nav-item w-full">
+                <a href="competenze.html"
+                    class="block text-white text-3xl md:text-4xl font-headline tracking-widest hover:text-secondary transition-colors duration-300">COMPETENZE</a>
+            </li>
+            <li class="mobile-nav-item w-full">
+                <a href="professionisti.html"
+                    class="block text-white text-3xl md:text-4xl font-headline tracking-widest hover:text-secondary transition-colors duration-300">PROFESSIONISTI</a>
+            </li>
+
+            <li class="mobile-nav-item w-full pt-8">
+                <a href="#contatti"
+                    class="inline-block text-center bg-secondary text-white w-full max-w-[280px] mx-auto py-5 text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-white hover:text-primary transition-all duration-500">
+                    CONTATTACI
+                </a>
+            </li>
+        </ul>
+    </div>
 
     <main>
         <!-- Sezione Hero (A Tutto Schermo: h-screen) -->
-        <section class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-gradient-animate border-b-8 border-secondary">
+        <section
+            class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden bg-gradient-animate border-b-8 border-secondary">
             <!-- Sovrapposizione Gradiente -->
-            <div class="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary/10 via-transparent to-transparent"></div>
+            <div
+                class="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary/10 via-transparent to-transparent">
+            </div>
 
-            <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full">
+            <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full mt-10 md:mt-0">
                 <div class="max-w-4xl mx-auto text-center flex flex-col items-center justify-center">
-                    
-                    <!-- Logo Animato -->
-                    <div class="reveal active mb-10">
-                        <img src="logo.png" alt="CCM Studio Legale" class="h-24 md:h-32 w-auto filter brightness-0 invert opacity-90 transition-all duration-500 hover:opacity-100">
+                    <div class="flex items-center justify-center space-x-4 mb-6 md:mb-8 reveal">
+                        <div class="hidden md:block h-[1px] w-12 bg-secondary/60"></div>
+                        <span
+                            class="block text-secondary text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-medium">
+                            Eccellenza Legale,<br> Visione Strategica
+                        </span>
+                        <div class="hidden md:block h-[1px] w-12 bg-secondary/60"></div>
                     </div>
+                    <h2
+                        class="font-headline text-5xl sm:text-7xl lg:text-8xl text-white leading-[1.1] mb-6 tracking-tight reveal delay-100">
+                        CCM
 
-                    <span class="block text-secondary text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-medium mb-6 md:mb-8 reveal active delay-100">
-                        CCM Studio Legale
-                    </span>
-                    
-                    <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl text-white leading-[1.1] md:leading-[1.05] mb-8 md:mb-10 tracking-tight reveal active delay-200">
-                        Sito in Lavorazione <br class="hidden md:block">
-                        <span class="italic font-light text-white/90 text-3xl md:text-5xl mt-4 block">Tornate a trovarci presto.</span>
-                    </h1>
-                    
-                    <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-8 reveal active delay-300 w-full md:w-auto mt-8">
-                        <a href="mailto:info@ccmstudiolegale.it" class="w-full md:w-auto bg-secondary text-white px-10 py-4 text-[11px] uppercase tracking-[0.15em] font-medium hover:bg-white hover:text-primary transition-all duration-500">
-                            Contattaci
+                    </h2>
+
+                    <!-- Linea di divisione sottile -->
+                    <div class="w-16 h-[1px] bg-white/30 mx-auto mb-8 reveal delay-200"></div>
+
+                    <!-- Sottotitolo (Ora separato, più elegante e leggibile) -->
+                    <p
+                        class="font-headline italic font-light text-white/90 text-2xl sm:text-3xl lg:text-4xl max-w-3xl mx-auto mb-12 md:mb-16 leading-relaxed reveal delay-200">
+                        Proteggiamo il valore della tua impresa
+                    </p>
+                    <div
+                        class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-8 reveal delay-200 w-full md:w-auto">
+                        <a href="competenze.html"
+                            class="w-full md:w-auto bg-secondary text-white px-10 py-4 text-[11px] uppercase tracking-[0.15em] font-medium hover:bg-white hover:text-primary transition-all duration-500 text-center">
+                            LE NOSTRE COMPETENZE
+                        </a>
+                        <a class="text-white text-[11px] uppercase tracking-[0.15em] font-medium editorial-underline pb-1"
+                            href="studio.html">
+                            SCOPRI LO STUDIO
                         </a>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Sezione Intro / Filosofia -->
+        <section class="py-20 md:py-32 lg:py-40 bg-surface">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-center">
+
+                    <div class="lg:col-span-7 pr-0 lg:pr-10 reveal">
+                        <span
+                            class="text-secondary text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-medium mb-4 md:mb-6 block">LA
+                            NOSTRA FILOSOFIA</span>
+                        <h2
+                            class="font-headline text-3xl md:text-5xl lg:text-6xl text-primary leading-[1.2] md:leading-[1.1] mb-8 md:mb-10">
+                            Anticipare il rischio per garantire stabilità e crescita aziendale
+                        </h2>
+                        <div class="space-y-6 text-text-muted font-light leading-relaxed text-base md:text-lg">
+                            <p>La stabilità di un’organizzazione dipende dalla sua capacità di anticipare e governare il
+                                rischio legale. Lo Studio Legale CCM nasce per rispondere a questa esigenza, offrendo un
+                                presidio legale integrato dove l'eccellenza tecnica e accademica incontra una profonda
+                                comprensione delle dinamiche industriali e societarie. Il nostro obiettivo è trasformare
+                                i vincoli imposti dalle normative in leve di crescita e sicurezza. Non ci limitiamo alla
+                                gestione dell'emergenza o della lite, ma affianchiamo il management nella costruzione di
+                                architetture giuridiche solide, capaci di proteggere il valore dell’azienda, l’integrità
+                                dei suoi processi e la reputazione dei suoi vertici. Attraverso una visione
+                                multidisciplinare, che connette il rigore del diritto penale d'impresa con le nuove
+                                frontiere della compliance digitale, assicuriamo alle imprese una protezione proattiva e
+                                costante, garantendo che ogni scelta di business sia sostenuta da una solida certezza
+                                del diritto.</p>
+                        </div>
+                        <div class="mt-10 md:mt-12">
+                            <a class="text-primary text-[11px] uppercase tracking-[0.15em] font-medium editorial-underline pb-1"
+                                href="professionisti.html">SCOPRI I NOSTRI PROFESSIONISTI</a>
+                        </div>
+                    </div>
+
+                    <!-- Blocco Citazione Tipografico -->
+                    <div class="lg:col-span-5 relative reveal delay-200 mt-8 lg:mt-0">
+                        <div
+                            class="bg-primary text-white p-10 md:p-14 border-l-4 border-secondary shadow-2xl relative overflow-hidden">
+
+                            <h3 class="font-headline text-2xl md:text-3xl italic leading-snug mb-6 relative z-10">
+                                "La compliance integrata rappresenta la chiave per prevenire i rischi d'impresa e
+                                garantire una solida difesa in giudizio, assicurando certezza e stabilità per ogni
+                                scelta aziendale".
+                            </h3>
+                            <div class="pt-6 border-t border-white/10">
+                                <a href="studio.html"
+                                    class="block font-medium text-[11px] uppercase tracking-widest text-secondary hover:text-white transition-colors duration-300">LO
+                                    STUDIO</a>
+                                <span class="block text-white/50 text-[10px] uppercase tracking-wider mt-1"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Aree di Competenza (Griglia Bento Ripristinata) -->
+        <section class="py-20 md:py-32 bg-surface-alt border-t border-gray-200">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+                <div class="mb-16 md:mb-20 text-center reveal">
+                    <span
+                        class="text-secondary text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-medium mb-4 block">LE
+                        NOSTRE COMPETENZE</span>
+                    <h2 class="font-headline text-3xl md:text-5xl lg:text-6xl text-primary">Aree di Pratica Principali
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+
+                    <!-- Card 1 -->
+                    <div
+                        class="md:col-span-2 group relative bg-white p-8 md:p-12 transition-all duration-700 ease-luxury hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/5 reveal border border-gray-100">
+                        <span
+                            class="material-symbols-outlined text-4xl text-primary competence-icon transition-all duration-500 group-hover:text-secondary">policy</span>
+                        <h3 class="font-headline text-2xl md:text-3xl text-primary mb-4">Compliance & Modelli 231</h3>
+                        <p class="text-text-muted font-light leading-relaxed mb-10 md:mb-12 max-w-md">Assistenza nella
+                            progettazione, implementazione e aggiornamento dei Modelli Organizzativi ex D.Lgs. 231/2001,
+                            con supporto agli OdV, sistemi di whistleblowing e attività di risk assessment.</p>
+                        <a class="text-primary text-[11px] uppercase tracking-[0.15em] font-medium editorial-underline pb-1"
+                            href="competenze.html#area-1">SCOPRI L'AREA</a>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div
+                        class="group relative bg-white p-8 md:p-12 transition-all duration-700 ease-luxury hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/5 reveal delay-100 border border-gray-100">
+                        <span
+                            class="material-symbols-outlined text-4xl text-primary competence-icon transition-all duration-500 group-hover:text-secondary">gavel</span>
+                        <h3 class="font-headline text-xl md:text-2xl text-primary mb-4">Diritto penale d’impresa</h3>
+                        <p class="text-text-muted font-light leading-relaxed mb-10 md:mb-12"> Affiancamento nella
+                            gestione delle problematiche connesse alla tutela della salute e sicurezza sul lavoro, ...
+                        </p>
+                        <a class="text-primary text-[11px] uppercase tracking-[0.15em] font-medium editorial-underline pb-1"
+                            href="competenze.html#area-2">SCOPRI L'AREA</a>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div
+                        class="group relative bg-white p-8 md:p-12 transition-all duration-700 ease-luxury hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/5 reveal delay-200 border border-gray-100">
+                        <span
+                            class="material-symbols-outlined text-4xl text-primary competence-icon transition-all duration-500 group-hover:text-secondary">privacy_tip</span>
+
+                        <h3 class="font-headline text-xl md:text-2xl text-primary mb-4">Privacy e Protezione Dati</h3>
+                        <p class="text-text-muted font-light leading-relaxed mb-10 md:mb-12">Supporto in Governance dei
+                            Dati, incarichi da DPO, gestione Data Breach e tutela contro i rischi informatici nel
+                            rispetto della normativa europea.</p>
+                        <a class="text-primary text-[11px] uppercase tracking-[0.15em] font-medium editorial-underline pb-1"
+                            href="competenze.html#area-5">SCOPRI L'AREA</a>
+                    </div>
+
+                    <!-- Card 4 (Larga) -->
+                    <div
+                        class="md:col-span-4 group relative overflow-hidden bg-primary text-white p-8 md:p-16 flex flex-col md:flex-row md:items-center justify-between transition-all duration-700 ease-luxury reveal border border-transparent hover:border-secondary/30 mt-2">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-primary via-primary to-[#1a1814] opacity-80 z-0">
+                        </div>
+
+                        <div class="max-w-2xl relative z-10">
+                            <span
+                                class="material-symbols-outlined text-secondary text-4xl mb-6 md:mb-8 block">star</span>
+                            <h3 class="font-headline text-2xl md:text-4xl mb-4">Approccio Multidisciplinare</h3>
+                            <p class="text-white/70 font-light leading-relaxed text-base md:text-lg">Affrontiamo la
+                                complessità aziendale unendo competenze giuridiche, tecniche e strategiche. Il nostro
+                                team lavora in sinergia per garantire una tutela legale integrata, dalla prevenzione dei
+                                rischi alla difesa in giudizio.</p>
+                        </div>
+                        <div class="mt-8 md:mt-0 relative z-10">
+                            <a class="inline-block border border-white/30 text-white px-6 py-4 md:px-8 md:py-4 text-[10px] md:text-[11px] uppercase tracking-[0.15em] font-medium hover:bg-white hover:text-primary transition-all duration-500 text-center w-full md:w-auto"
+                                href="competenze.html">
+                                SCOPRI DI PIÙ
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Sezione Team / Avvocati (Ripristinata) -->
+        <section class="py-20 md:py-32 lg:py-40 bg-surface">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 reveal">
+                    <div class="max-w-2xl">
+                        <span
+                            class="text-secondary text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-medium mb-4 block">IL
+                            NOSTRO TEAM</span>
+                        <h2 class="font-headline text-3xl md:text-5xl lg:text-6xl text-primary">I Nostri Professionisti
+                        </h2>
+                    </div>
+                    <div class="mt-6 md:mt-0">
+                        <a class="text-primary text-[11px] uppercase tracking-[0.15em] font-medium editorial-underline pb-1"
+                            href="professionisti.html">VEDI TUTTO IL TEAM</a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 md:gap-12 lg:gap-16">
+
+                    <!-- Membro 1 -->
+                    <div class="group cursor-pointer reveal">
+                        <div
+                            class="mb-6 md:mb-8 relative aspect-square md:aspect-[3/4] bg-surface-alt flex items-center justify-center border border-gray-200 transition-all duration-700 ease-luxury group-hover:bg-primary group-hover:border-primary overflow-hidden">
+                            <img src="img/professionisti/silvia-casali.jpg" alt="Avv. Silvia Casali"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                            <div
+                                class="absolute inset-0 bg-primary/90 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-center justify-center backdrop-blur-sm">
+                                <a href="profilo-avvocato-silvia-casali.html"
+                                    class="text-white text-[10px] uppercase tracking-[0.2em] font-medium border border-white/50 px-6 py-3 hover:bg-white hover:text-primary transition-colors duration-300">SCOPRI
+                                    IL PROFILO</a>
+                            </div>
+                        </div>
+                        <div
+                            class="text-center md:text-left transition-transform duration-500 group-hover:-translate-y-2">
+                            <h4 class="font-headline text-xl md:text-2xl text-primary mb-1 md:mb-2">Silvia Casali</h4>
+                            <span
+                                class="text-secondary text-[10px] uppercase tracking-[0.2em] font-medium">Avvocato</span>
+                        </div>
+                    </div>
+
+                    <!-- Membro 2 -->
+                    <div class="group cursor-pointer reveal delay-100">
+                        <div
+                            class="mb-6 md:mb-8 relative aspect-square md:aspect-[3/4] bg-surface-alt flex items-center justify-center border border-gray-200 transition-all duration-700 ease-luxury group-hover:bg-primary group-hover:border-primary overflow-hidden">
+                            <img src="img/professionisti/dario-martire.jpg" alt="Dario Martire"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                            <div
+                                class="absolute inset-0 bg-primary/90 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-center justify-center backdrop-blur-sm">
+                                <a href="profilo-avvocato-dario-martire.html"
+                                    class="text-white text-[10px] uppercase tracking-[0.2em] font-medium border border-white/50 px-6 py-3 hover:bg-white hover:text-primary transition-colors duration-300">SCOPRI
+                                    IL PROFILO</a>
+                            </div>
+                        </div>
+                        <div
+                            class="text-center md:text-left transition-transform duration-500 group-hover:-translate-y-2">
+                            <h4 class="font-headline text-xl md:text-2xl text-primary mb-1 md:mb-2">Dario Martire</h4>
+                            <span class="text-secondary text-[10px] uppercase tracking-[0.2em] font-medium">Professore
+                                Avvocato</span>
+                        </div>
+                    </div>
+
+                    <!-- Membro 3 -->
+                    <div class="group cursor-pointer reveal delay-200">
+                        <div
+                            class="mb-6 md:mb-8 relative aspect-square md:aspect-[3/4] bg-surface-alt flex items-center justify-center border border-gray-200 transition-all duration-700 ease-luxury group-hover:bg-primary group-hover:border-primary overflow-hidden">
+                            <img src="img/professionisti/maria-federica-carriero.jpg" alt="Maria Federica Carriero"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                            <div
+                                class="absolute inset-0 bg-primary/90 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex items-center justify-center backdrop-blur-sm">
+                                <a href="profilo-avvocato-maria-federica-carriero.html"
+                                    class="text-white text-[10px] uppercase tracking-[0.2em] font-medium border border-white/50 px-6 py-3 hover:bg-white hover:text-primary transition-colors duration-300">SCOPRI
+                                    IL PROFILO</a>
+                            </div>
+                        </div>
+                        <div
+                            class="text-center md:text-left transition-transform duration-500 group-hover:-translate-y-2">
+                            <h4 class="font-headline text-xl md:text-2xl text-primary mb-1 md:mb-2">Maria Federica
+                                Carriero</h4>
+                            <span class="text-secondary text-[10px] uppercase tracking-[0.2em] font-medium">Consulente
+                                Legale</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Modulo di Contatto (Ripristinato) -->
+        <section id="contatti" class="py-20 md:py-32 lg:py-40 bg-primary text-white relative overflow-hidden">
+            <div
+                class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-secondary via-primary to-primary">
+            </div>
+
+            <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32">
+
+                    <div class="reveal">
+                        <span
+                            class="text-secondary text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-medium mb-4 md:mb-6 block">CONTATTACI</span>
+                        <h2
+                            class="font-headline text-3xl md:text-5xl lg:text-6xl mb-8 md:mb-10 leading-[1.2] md:leading-[1.1]">
+                            Richiedi una consulenza o fissa un appuntamento.
+                        </h2>
+
+                        <div class="space-y-8 md:space-y-10 mt-10 md:mt-16">
+                            <div class="flex items-start space-x-4 md:space-x-5 group">
+                                <!-- Icona principale (Posizione) -->
+                                <span
+                                    class="material-symbols-outlined text-secondary text-2xl md:text-3xl mt-1 group-hover:scale-110 transition-transform duration-300">location_on</span>
+
+                                <div>
+                                    <!-- Intestazione -->
+                                    <h4 class="text-[10px] uppercase tracking-[0.2em] font-medium text-white/50 mb-1">
+                                        SEDE BOLOGNA</h4>
+
+                                    <!-- Indirizzo -->
+                                    <p class="font-headline text-lg md:text-xl leading-tight">
+                                        Via d’Azeglio, 66 <br> Bologna (BO)
+                                    </p>
+
+                                    <!-- Telefono (Compatto) -->
+                                    <div class="flex items-center space-x-2 mt-2 group/phone">
+                                        <span
+                                            class="material-symbols-outlined text-secondary text-base md:text-lg">phone</span>
+                                        <a href="tel:+390510876471"
+                                            class="font-headline text-base md:text-lg hover:text-secondary transition-colors duration-300">
+                                            +39 051 087 6471
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-4 md:space-x-5 group">
+                                <!-- Icona principale (Posizione) -->
+                                <span
+                                    class="material-symbols-outlined text-secondary text-2xl md:text-3xl mt-1 group-hover:scale-110 transition-transform duration-300">location_on</span>
+
+                                <div>
+                                    <!-- Intestazione -->
+                                    <h4 class="text-[10px] uppercase tracking-[0.2em] font-medium text-white/50 mb-1">
+                                        SEDE ROMA</h4>
+
+                                    <!-- Indirizzo -->
+                                    <p class="font-headline text-lg md:text-xl leading-tight">
+                                        Via della Giuliana, 73 <br> Roma (RM)
+                                    </p>
+
+                                    <!-- Telefono (Compatto) -->
+                                    <div class="flex items-center space-x-2 mt-2 group/phone">
+                                        <span
+                                            class="material-symbols-outlined text-secondary text-base md:text-lg">phone</span>
+                                        <a href="tel:+393332470186"
+                                            class="font-headline text-base md:text-lg hover:text-secondary transition-colors duration-300">
+                                            +39 333 247 0186
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-5 md:space-x-6 group">
+                                <span
+                                    class="material-symbols-outlined text-secondary text-2xl md:text-3xl group-hover:scale-110 transition-transform duration-300">mail</span>
+                                <div>
+                                    <h4
+                                        class="text-[10px] uppercase tracking-[0.2em] font-medium text-white/50 mb-1 md:mb-2">
+                                        EMAIL</h4>
+                                    <p class="font-headline text-lg md:text-xl">info@ccmstudiolegale.it</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="contact-form" class="space-y-8 md:space-y-12">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                            <div class="relative group">
+                                <label
+                                    class="block text-[10px] uppercase tracking-[0.2em] text-white/50 mb-2 md:mb-3">NOME
+                                    E COGNOME</label>
+                                <input name="nome" required
+                                    class="custom-input w-full bg-transparent border-0 border-b border-white/20 p-0 py-2 text-white focus:ring-0 text-base md:text-lg font-light placeholder-white/20 transition-colors"
+                                    placeholder="Il tuo nome" type="text" />
+                                <div class="input-border absolute bottom-0 left-0 h-[1px] bg-secondary"></div>
+                            </div>
+                            <div class="relative group">
+                                <label
+                                    class="block text-[10px] uppercase tracking-[0.2em] text-white/50 mb-2 md:mb-3">EMAIL</label>
+                                <input name="email" required
+                                    class="custom-input w-full bg-transparent border-0 border-b border-white/20 p-0 py-2 text-white focus:ring-0 text-base md:text-lg font-light placeholder-white/20 transition-colors"
+                                    placeholder="La tua email" type="email" />
+                                <div class="input-border absolute bottom-0 left-0 h-[1px] bg-secondary"></div>
+                            </div>
+                        </div>
+
+                        <div class="relative group">
+                            <label
+                                class="block text-[10px] uppercase tracking-[0.2em] text-white/50 mb-2 md:mb-3">MOTIVO
+                                DEL CONTATTO</label>
+                            <select name="opzione"
+                                class="custom-input w-full bg-transparent border-0 border-b border-white/20 p-0 py-2 text-white focus:ring-0 text-base md:text-lg font-light appearance-none cursor-pointer">
+                                <option class="bg-primary text-white" value="Compliance">Compliance & Modelli 231
+                                </option>
+                                <option class="bg-primary text-white" value="Diritto Penale">Diritto penale d’impresa
+                                </option>
+                                <option class="bg-primary text-white" value="Privacy">Privacy</option>
+                                <option class="bg-primary text-white" value="Altro">Altro / Informazioni generali
+                                </option>
+                            </select>
+                            <span
+                                class="material-symbols-outlined absolute right-0 bottom-2 md:bottom-3 text-white/50 pointer-events-none">expand_more</span>
+                            <div class="input-border absolute bottom-0 left-0 h-[1px] bg-secondary"></div>
+                        </div>
+
+                        <div class="relative group">
+                            <label
+                                class="block text-[10px] uppercase tracking-[0.2em] text-white/50 mb-2 md:mb-3">MESSAGGIO</label>
+                            <textarea name="messaggio" required
+                                class="custom-input w-full bg-transparent border-0 border-b border-white/20 p-0 py-2 text-white focus:ring-0 text-base md:text-lg font-light placeholder-white/20 resize-none"
+                                placeholder="Scrivi qui il tuo messaggio..." rows="3"></textarea>
+                            <div class="input-border absolute bottom-[5px] left-0 h-[1px] bg-secondary"></div>
+                        </div>
+
+                        <button id="submit-btn"
+                            class="w-full bg-white text-primary py-4 md:py-5 text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-secondary hover:text-white transition-all duration-500 mt-2 md:mt-4"
+                            type="submit">
+                            INVIA RICHIESTA
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface py-12 md:py-16 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div
+                class="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0 text-center md:text-left">
+                <div class="text-primary font-headline text-xl md:text-2xl tracking-tight">
+                    CCM STUDIO LEGALE
+                </div>
+                <div class="flex flex-wrap justify-center gap-6 md:gap-8">
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300"
+                        href="note-legali.html">NOTE LEGALI</a>
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300"
+                        href="privacy-policy.html">PRIVACY POLICY</a>
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300"
+                        href="cookie-policy.html">COOKIE POLICY</a>
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300"
+                        href="lavora-con-noi.html">LAVORA CON NOI</a>
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300" href="https://www.linkedin.com/feed" target="_blank">LINKEDIN</a>
+                </div>
+                <div class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-text-muted">
+                    © 2024 CCM Studio Legale. Tutti i diritti riservati. | P.IVA 04277020402
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- JavaScript per Interazioni -->
     <script>
+
+        const form = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('submit-btn');
+
+        // SOSTITUISCI QUESTO URL CON QUELLO COPIATO DA GOOGLE APPS SCRIPT
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwphQuKWUSNabDtlG1Z9dokRAUjnBC6le5cMNMxLEGeHn29t75mPWVSbUTdlyro5a8V/exec';
+
+        form.addEventListener('submit', e => {
+            e.preventDefault(); // Evita che la pagina si ricarichi
+
+            // Cambia il testo del bottone per dare feedback all'utente
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = 'INVIO IN CORSO...';
+            submitBtn.disabled = true;
+
+            fetch(scriptURL, {
+                method: 'POST',
+                body: new FormData(form)
+            })
+                .then(response => {
+                    alert('Messaggio inviato con successo! Ti risponderemo al più presto.');
+                    form.reset(); // Svuota il form
+                    submitBtn.innerText = originalBtnText;
+                    submitBtn.disabled = false;
+                })
+                .catch(error => {
+                    console.error('Errore!', error.message);
+                    alert('Si è verificato un errore durante l\'invio. Riprova più tardi.');
+                    submitBtn.innerText = originalBtnText;
+                    submitBtn.disabled = false;
+                });
+        });
         document.addEventListener('DOMContentLoaded', () => {
-            // Animazione iniziale al caricamento
+
+            // --- LOGICA MENU MOBILE ---
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+            const body = document.body;
+
+            mobileBtn.addEventListener('click', () => {
+                body.classList.toggle('menu-open');
+
+                // Impedisce alla pagina di scorrere sotto il menu aperto
+                if (body.classList.contains('menu-open')) {
+                    body.style.overflow = 'hidden';
+                } else {
+                    body.style.overflow = '';
+                }
+            });
+
+            // Chiudere il menu se si clicca su un link al suo interno
+            const mobileLinks = mobileOverlay.querySelectorAll('a, button');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    body.classList.remove('menu-open');
+                    body.style.overflow = '';
+                });
+            });
+            // --------------------------
+
+            // Animazione Rivelazione allo Scorrimento
             const revealElements = document.querySelectorAll('.reveal');
-            setTimeout(() => {
-                revealElements.forEach(el => el.classList.add('active'));
-            }, 100);
+            const revealOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -20px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function (entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => revealOnScroll.observe(el));
+
+            // Sfondo Dinamico Navbar
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 30) {
+                    navbar.classList.add('nav-scrolled');
+                    navbar.classList.remove('nav-transparent', 'border-white/10');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                    navbar.classList.add('nav-transparent', 'border-white/10');
+                }
+            });
         });
     </script>
 </body>

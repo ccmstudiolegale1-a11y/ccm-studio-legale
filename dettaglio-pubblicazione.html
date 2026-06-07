@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ARTICOLO | CCM Studio Legale</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0A2B43",
+                        "secondary": "#a38757",
+                        "secondary-hover": "#8c7247",
+                        "surface": "#fbfbfb",
+                        "surface-alt": "#f3f4f6",
+                        "text-main": "#1a1a1a",
+                        "text-muted": "#666666",
+                    },
+                    fontFamily: {
+                        "headline": ["'Playfair Display'", "serif"],
+                        "body": ["'Inter'", "sans-serif"],
+                        "label": ["'Inter'", "sans-serif"]
+                    },
+                    transitionTimingFunction: {
+                        'luxury': 'cubic-bezier(0.16, 1, 0.3, 1)',
+                    }
+                },
+            },
+        }
+    </script>
+
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .nav-transparent {
+            background-color: transparent;
+            border-bottom-color: transparent;
+        }
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom-color: rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+        }
+        .nav-scrolled .nav-text {
+            color: #0a0a0a !important;
+        }
+        .nav-scrolled .nav-btn {
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+        .hamburger-line {
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, width 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s ease;
+            background-color: #ffffff;
+        }
+
+        .nav-scrolled .hamburger-line {
+            background-color: #0a0a0a !important;
+        }
+
+        body.menu-open .hamburger-line {
+            background-color: #ffffff !important;
+        }
+
+        body.menu-open #line-1 { transform: translateY(7px) rotate(45deg); }
+        body.menu-open #line-2 { opacity: 0; width: 0 !important; }
+        body.menu-open #line-3 { transform: translateY(-7px) rotate(-45deg); }
+        #mobile-menu-overlay {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        body.menu-open #mobile-menu-overlay {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        body.menu-open #navbar {
+            background: transparent !important;
+            border-bottom-color: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .nav-scrolled:not(.menu-open) .nav-logo {
+            filter: invert(1) brightness(0);
+        }
+
+        body.menu-open .nav-logo {
+            filter: brightness(0) invert(1) !important;
+        }
+    
+.mobile-nav-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        body.menu-open .mobile-nav-item { opacity: 1; transform: translateY(0); }
+        .bg-gradient-animate-inner {
+            background: linear-gradient(-45deg, #0A2B43, #0d3857, #0A2B43, #151515);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .editorial-underline {
+            position: relative;
+            display: inline-block;
+        }
+        .editorial-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background-color: currentColor;
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .editorial-underline:hover::after {
+            width: 100%;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+    </style>
+</head>
+
+<body class="bg-surface text-text-main font-body antialiased selection:bg-secondary selection:text-white">
+
+    <nav id="navbar" class="fixed top-0 w-full z-[60] transition-all duration-700 nav-transparent border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-5 md:px-6 lg:px-12 h-20 md:h-24 flex items-center justify-between">
+            <div class="flex items-center relative z-[65]">
+                <a href="index.html" class="nav-text text-white font-headline text-xl md:text-3xl tracking-tight transition-colors duration-500">
+                    <img src="img/logo/logo.png" alt="CCM Studio Legale" class="h-16 md:h-20 w-auto nav-logo transition-all duration-500">
+                </a>
+            </div>
+
+            <div class="hidden lg:flex space-x-10 items-center relative z-[65]">
+                <a class="nav-text text-white/90 text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300" href="index.html">HOME</a>
+                <a class="nav-text text-white/90 text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300" href="studio.html">LO STUDIO</a>
+                <a class="nav-text text-white/90 text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300" href="competenze.html">COMPETENZE</a>
+                <a class="nav-text text-white/90 text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300" href="professionisti.html">PROFESSIONISTI</a>
+                <a class="nav-text text-secondary active-link text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300" href="pubblicazioni.html">PUBBLICAZIONI</a>
+            </div>
+
+            <div class="hidden lg:block relative z-[65]">
+                <button class="nav-btn bg-white text-primary px-8 py-3.5 text-[11px] uppercase tracking-[0.15em] font-medium hover:bg-secondary hover:text-white transition-all duration-500">
+                    CONTATTACI
+                </button>
+            </div>
+
+            <button id="mobile-menu-btn" aria-label="Apri menu" class="lg:hidden relative z-[65] flex flex-col justify-center items-end w-12 h-12 cursor-pointer bg-transparent group">
+                <span id="line-1" class="hamburger-line w-7 h-[1px] block mb-[6px]"></span>
+                <span id="line-2" class="hamburger-line w-5 h-[1px] block mb-[6px] group-hover:w-7"></span>
+                <span id="line-3" class="hamburger-line w-7 h-[1px] block"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-primary z-[55] flex flex-col justify-center items-center">
+        <ul class="flex flex-col items-center space-y-8 md:space-y-10 text-center w-full px-6">
+            <li class="mobile-nav-item w-full"><a href="index.html" class="block text-white text-3xl md:text-4xl font-headline tracking-widest hover:text-secondary transition-colors duration-300">HOME</a></li>
+            <li class="mobile-nav-item w-full"><a href="studio.html" class="block text-white text-3xl md:text-4xl font-headline tracking-widest hover:text-secondary transition-colors duration-300">LO STUDIO</a></li>
+            <li class="mobile-nav-item w-full"><a href="competenze.html" class="block text-white text-3xl md:text-4xl font-headline tracking-widest hover:text-secondary transition-colors duration-300">COMPETENZE</a></li>
+            <li class="mobile-nav-item w-full"><a href="professionisti.html" class="block text-white text-3xl md:text-4xl font-headline tracking-widest hover:text-secondary transition-colors duration-300">PROFESSIONISTI</a></li>
+            <li class="mobile-nav-item w-full"><a href="pubblicazioni.html" class="block text-secondary text-3xl md:text-4xl font-headline tracking-widest transition-colors duration-300">PUBBLICAZIONI</a></li>
+            <li class="mobile-nav-item w-full pt-8">
+                <button class="bg-secondary text-white w-full max-w-[280px] mx-auto py-5 text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-white hover:text-primary transition-all duration-500">CONTATTACI</button>
+            </li>
+        </ul>
+    </div>
+
+    <main>
+        <!-- Header Articolo -->
+        <section class="relative pt-40 pb-20 md:pt-48 md:pb-28 lg:pt-56 lg:pb-32 flex items-end justify-center overflow-hidden bg-gradient-animate-inner border-b border-secondary/30">
+            <div class="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary/5 via-transparent to-transparent"></div>
+            
+            <div class="relative z-10 max-w-4xl mx-auto px-6 lg:px-12 w-full text-center">
+                <div class="mb-8 reveal">
+                    <span class="text-secondary text-[10px] md:text-[11px] uppercase tracking-[0.3em] font-medium inline-block border border-secondary/30 px-4 py-2 bg-secondary/10">
+                        Diritto Societario
+                    </span>
+                    <span class="px-3 text-white/50">•</span>
+                    <span class="text-white/60 text-xs font-light tracking-widest">10 OTT 202X</span>
+                </div>
+                <h1 class="font-headline text-3xl md:text-5xl lg:text-6xl text-white leading-[1.2] md:leading-[1.1] tracking-tight reveal delay-100">
+                    La nuova direttiva sulle aggregazioni d'impresa: cosa cambia per i CEO.
+                </h1>
+                <div class="mt-10 pt-8 border-t border-white/10 text-white/70 text-sm md:text-base font-light reveal delay-200">
+                    A cura di <span class="text-white">Avv. Nome Cognome</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Corpo dell'Articolo -->
+        <section class="py-20 md:py-32 bg-surface">
+            <div class="max-w-3xl mx-auto px-6 lg:px-12">
+                <div class="prose prose-lg prose-gray max-w-none text-text-muted font-light leading-loose reveal">
+                    <p class="text-xl md:text-2xl text-primary font-headline mb-8 leading-relaxed">
+                        Un'analisi approfondita delle recenti normative comunitarie e il loro impatto immediato sulle strategie corporate e la governance interna. Oltre la burocrazia: un'opportunità strategica per le imprese.
+                    </p>
+                    
+                    <p class="mb-6">
+                        L'approvazione della recente direttiva ha scosso le fondamenta tradizionali delle aggregazioni aziendali. In molte giurisdizioni, le fusioni e acquisizioni (M&A) erano state storicamente regolate da normative frammentate, che creavano incertezza e rallentamenti strutturali, specialmente in contesti cross-border.
+                    </p>
+
+                    <h3 class="text-2xl text-primary font-headline mt-12 mb-6">Le tre direttrici principali</h3>
+                    <p class="mb-6">
+                        Il nuovo framework legislativo si articola lungo tre assi principali: la semplificazione delle procedure di <i>due diligence</i>, la revisione delle protezioni a favore dei creditori, e un nuovo focus sulla sostenibilità (ESG) come parametro vincolante di valutazione dell'operazione. Più specificamente:
+                    </p>
+                    <ul class="list-disc pl-6 space-y-3 mb-8 marker:text-secondary">
+                        <li>Standardizzazione documentale a livello europeo.</li>
+                        <li>Tempistiche ridotte per le autorizzazioni antitrust.</li>
+                        <li>Obbligo di Disclosure per gli impatti ambientali pre-fusione.</li>
+                    </ul>
+
+                    <p class="mb-6">
+                        "La vera sfida per i board", come spesso ricordato durante le sessioni formative dello Studio, "non è tanto l'adeguamento normativo, quanto la trasformazione della compliance in un vantaggio competitivo netto nei confronti dei competitor più lenti".
+                    </p>
+
+                    <h3 class="text-2xl text-primary font-headline mt-12 mb-6">Impatti immediati sulla Corporate Governance</h3>
+                    <p class="mb-6">
+                        Dal punto di vista pratico, i CEO e i Consigli di Amministrazione sono ora chiamati a rivedere i propri regolamenti interni. La responsabilità per le omesse valutazioni dei rischi aggregati aumenta in modo significativo, con sanzioni non più limitate all'alveo amministrativo.
+                    </p>
+
+                    <div class="my-12 p-8 bg-surface-alt border-l-4 border-secondary italic">
+                        <p class="mb-0 text-primary">
+                            In questo scenario di rapida evoluzione, l'assistenza legale si sposta da una funzione meramente notarile ex-post ad un supporto strategico ex-ante, dove il giurista siede a tavolo con l'imprenditore per modellarne le scelte fin dal principio.
+                        </p>
+                    </div>
+
+                    <p>
+                        Il nostro team di esperti in Corporate Governance rimane a disposizione per organizzare study-session dedicate presso le sedi dei nostri clienti, per delineare il percorso più sicuro nell'adozione dei nuovi standard.
+                    </p>
+                </div>
+                
+                <!-- Condivisione e Navigazione -->
+                <div class="mt-16 pt-10 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-6 reveal">
+                    <div class="flex items-center gap-4">
+                        <span class="text-[10px] uppercase tracking-[0.2em] font-medium text-text-muted">Condividi:</span>
+                        <a href="#" class="text-primary hover:text-secondary transition-colors"><span class="editorial-underline">LinkedIn</span></a>
+                        <a href="#" class="text-primary hover:text-secondary transition-colors"><span class="editorial-underline">Twitter</span></a>
+                        <a href="#" class="text-primary hover:text-secondary transition-colors"><span class="editorial-underline">Email</span></a>
+                    </div>
+                    
+                    <a href="pubblicazioni.html" class="inline-flex items-center text-primary text-[11px] uppercase tracking-[0.2em] font-medium hover:text-secondary transition-colors">
+                        <span class="material-symbols-outlined text-[14px] mr-2">arrow_back</span>
+                        Tutte le pubblicazioni
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+        <!-- Footer -->
+    <footer class="bg-surface py-12 md:py-16 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0 text-center md:text-left">
+                <div class="text-primary font-headline text-xl md:text-2xl tracking-tight">
+                    CCM STUDIO LEGALE
+                </div>
+                <div class="flex flex-wrap justify-center gap-6 md:gap-8">
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300" href="#">NOTE LEGALI</a>
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300" href="#">PRIVACY POLICY</a>
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300" href="#">COOKIE POLICY</a>
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300" href="lavora-con-noi.html">LAVORA CON NOI</a>
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300" href="https://www.linkedin.com/feed" target="_blank">LINKEDIN</a>
+                </div>
+                <div class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-text-muted">
+                    © 2024 CCM Studio Legale. Tutti i diritti riservati. | P.IVA 04277020402
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+            const body = document.body;
+            
+            mobileBtn.addEventListener('click', () => {
+                body.classList.toggle('menu-open');
+                if (body.classList.contains('menu-open')) {
+                    body.style.overflow = 'hidden';
+                } else {
+                    body.style.overflow = '';
+                }
+            });
+
+            // Chiudere il menu se si clicca su un link al suo interno (Fix)
+            const __mobileOverlay = document.getElementById('mobile-menu-overlay');
+            if (__mobileOverlay) {
+                const __mobileLinks = __mobileOverlay.querySelectorAll('a, button');
+                __mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        document.body.classList.remove('menu-open');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+
+
+            const mobileLinks = mobileOverlay.querySelectorAll('a, button');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    body.classList.remove('menu-open');
+                    body.style.overflow = '';
+                });
+            });
+
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -20px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function (entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => revealOnScroll.observe(el));
+
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 30) {
+                    navbar.classList.add('nav-scrolled');
+                    navbar.classList.remove('nav-transparent', 'border-white/10');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                    navbar.classList.add('nav-transparent', 'border-white/10');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

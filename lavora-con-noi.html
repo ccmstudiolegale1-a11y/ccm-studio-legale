@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Lavora con Noi | CCM Studio Legale</title>
+    <link rel="icon" type="image/png" href="img/logo/logo.png" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind Config -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0A2B43",
+                        "secondary": "#a38757",
+                        "secondary-hover": "#8c7247",
+                        "surface": "#fbfbfb",
+                        "surface-alt": "#f3f4f6",
+                        "text-main": "#1a1a1a",
+                        "text-muted": "#666666",
+                    },
+                    fontFamily: {
+                        "headline": ["'Playfair Display'", "serif"],
+                        "body": ["'Inter'", "sans-serif"],
+                        "label": ["'Inter'", "sans-serif"]
+                    },
+                    transitionTimingFunction: {
+                        'luxury': 'cubic-bezier(0.16, 1, 0.3, 1)',
+                    }
+                },
+            },
+        }
+    </script>
+
+    <!-- CSS Personalizzato -->
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .editorial-underline { position: relative; display: inline-block; }
+        .editorial-underline::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0%; height: 1px; background-color: currentColor; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .editorial-underline:hover::after { width: 100%; }
+
+        .nav-transparent { background-color: transparent; border-bottom-color: transparent; }
+        .nav-scrolled { background-color: rgba(255, 255, 255, 0.98); backdrop-filter: blur(10px); border-bottom-color: rgba(0, 0, 0, 0.05); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03); }
+        .nav-scrolled .nav-text { color: #0a0a0a !important; }
+        .nav-scrolled .nav-btn { background-color: #0a0a0a; color: #ffffff; }
+
+        .hamburger-line { transition: all 0.4s ease; background-color: #ffffff; }
+        .nav-scrolled .hamburger-line { background-color: #0a0a0a !important; }
+        body.menu-open .hamburger-line { background-color: #ffffff !important; }
+
+        body.menu-open #line-1 { transform: translateY(7px) rotate(45deg); }
+        body.menu-open #line-2 { opacity: 0; width: 0 !important; }
+        body.menu-open #line-3 { transform: translateY(-7px) rotate(-45deg); }
+
+        #mobile-menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+        body.menu-open #mobile-menu-overlay { opacity: 1; pointer-events: auto; }
+        body.menu-open #navbar { background: transparent !important; border-bottom-color: transparent !important; box-shadow: none !important; }
+        
+        .nav-scrolled:not(.menu-open) .nav-logo { filter: invert(1) brightness(0); }
+        body.menu-open .nav-logo { filter: brightness(0) invert(1) !important; }
+
+        .mobile-nav-item { opacity: 0; transform: translateY(30px); transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+        body.menu-open .mobile-nav-item { opacity: 1; transform: translateY(0); }
+        .mobile-nav-item:nth-child(1) { transition-delay: 150ms; }
+        .mobile-nav-item:nth-child(2) { transition-delay: 250ms; }
+        .mobile-nav-item:nth-child(3) { transition-delay: 350ms; }
+        .mobile-nav-item:nth-child(4) { transition-delay: 450ms; }
+        .mobile-nav-item:nth-child(5) { transition-delay: 550ms; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+
+        .custom-input:focus~.input-border { width: 100%; }
+        .input-border { width: 0%; transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        /* Sfondo animato gradiente */
+        .bg-gradient-animate { background: linear-gradient(-45deg, #0A2B43, #0A2B43, #0A2B43, #222222); background-size: 400% 400%; animation: gradientBG 15s ease infinite; }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* CV Input personalizzato */
+        .file-upload-wrapper { position: relative; cursor: pointer; }
+        .file-upload-input { position: absolute; z-index: -1; width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; }
+    </style>
+</head>
+
+<body class="bg-surface text-text-main font-body antialiased selection:bg-secondary selection:text-white">
+
+    <!-- Navbar Superiore -->
+    <nav id="navbar" class="fixed top-0 w-full z-[60] transition-all duration-700 nav-transparent border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-5 md:px-6 lg:px-12 h-20 md:h-24 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center relative z-[65]">
+                <a href="index.html" class="nav-text text-white font-headline text-xl md:text-3xl tracking-tight transition-colors duration-500">
+                    <img src="img/logo/logo.png" alt="CCM Studio Legale" class="h-16 md:h-20 w-auto nav-logo transition-all duration-500">
+                </a>
+            </div>
+
+            <!-- Menu Desktop -->
+            <div class="hidden lg:flex space-x-10 items-center relative z-[65]">
+                <a class="nav-text text-white/90 text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300" href="index.html">HOME</a>
+                <a class="nav-text text-white/90 text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300" href="studio.html">LO STUDIO</a>
+                <a class="nav-text text-white/90 text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300" href="competenze.html">COMPETENZE</a>
+                <a class="nav-text text-white/90 text-[11px] uppercase tracking-[0.15em] font-medium hover:text-secondary transition-colors duration-300" href="professionisti.html">PROFESSIONISTI</a>
+                
+            </div>
+
+            <!-- Pulsante CTA Desktop -->
+            <div class="hidden lg:block relative z-[65]">
+                <a href="index.html#contatti" class="nav-btn inline-block bg-white text-primary px-8 py-3.5 text-[11px] uppercase tracking-[0.15em] font-medium hover:bg-secondary hover:text-white transition-all duration-500">
+                    CONTATTACI
+                </a>
+            </div>
+
+            <!-- Pulsante Menu Hamburger Elegante (Solo Mobile) -->
+            <button id="mobile-menu-btn" aria-label="Apri menu" class="lg:hidden relative z-[65] flex flex-col justify-center items-end w-12 h-12 cursor-pointer focus:outline-none bg-transparent group">
+                <span id="line-1" class="hamburger-line w-7 h-[1px] block mb-[6px]"></span>
+                <span id="line-2" class="hamburger-line w-5 h-[1px] block mb-[6px] group-hover:w-7"></span>
+                <span id="line-3" class="hamburger-line w-7 h-[1px] block"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Overlay Menu Mobile a Schermo Intero -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-primary z-[55] flex flex-col justify-center items-center">
+        <ul class="flex flex-col items-center space-y-8 md:space-y-10 text-center w-full px-6">
+            <li class="mobile-nav-item w-full"><a href="index.html" class="block text-white text-3xl font-headline tracking-widest hover:text-secondary transition-colors">HOME</a></li>
+            <li class="mobile-nav-item w-full"><a href="studio.html" class="block text-white text-3xl font-headline tracking-widest hover:text-secondary transition-colors">LO STUDIO</a></li>
+            <li class="mobile-nav-item w-full"><a href="competenze.html" class="block text-white text-3xl font-headline tracking-widest hover:text-secondary transition-colors">COMPETENZE</a></li>
+            <li class="mobile-nav-item w-full"><a href="professionisti.html" class="block text-white text-3xl font-headline tracking-widest hover:text-secondary transition-colors">PROFESSIONISTI</a></li>
+            <li class="mobile-nav-item w-full pt-8">
+                <a href="index.html#contatti" class="inline-block bg-secondary text-white w-full max-w-[280px] mx-auto py-5 text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-white hover:text-primary transition-all duration-500">CONTATTACI</a>
+            </li>
+        </ul>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative h-[60vh] min-h-[450px] flex items-center justify-center overflow-hidden bg-gradient-animate">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary/10 via-transparent to-transparent"></div>
+            <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 w-full mt-16 md:mt-24 text-center text-white">
+                <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl leading-tight mb-6 reveal">Lavora con Noi</h1>
+                <div class="w-16 h-[1px] bg-secondary mx-auto mb-6 reveal delay-100"></div>
+                <p class="font-headline italic font-light text-white/80 text-xl md:text-2xl max-w-2xl mx-auto reveal delay-200">
+                    Siamo costantemente alla ricerca di talenti, dedizione ed eccellenza.
+                </p>
+            </div>
+        </section>
+
+        <!-- Form Inoltro Candidatura e Selezione Profilo -->
+        <section class="py-20 md:py-32 bg-surface relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+                    
+                    <!-- Messaggio Introduttivo / Valori -->
+                    <div class="lg:col-span-5 text-text-main reveal">
+                        <span class="text-secondary text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-medium mb-4 block">RECRUITMENT</span>
+                        <h2 class="font-headline text-3xl md:text-5xl lg:text-6xl text-primary leading-[1.1] mb-8 text-primary">Unisciti al nostro Team</h2>
+                        <div class="space-y-6 text-text-muted font-light leading-relaxed md:text-lg">
+                            <p>CCM Studio Legale crede nel valore delle persone. Promuoviamo un ambiente di lavoro dinamico, collaborativo e orientato alla crescita professionale continua.</p>
+                            <p>Siamo interessati ad incontrare professionisti, giovani neo-laureati o praticanti avvocati con solide basi accademiche, ottima conoscenza delle lingue straniere e una spiccata propensione per i nostri settori di specializzazione.</p>
+                            <p>Invia il tuo curriculum vitae accompagnato da una breve lettera motivazionale compilando il modulo. Esaminiamo con attenzione ogni candidatura per inserimenti mirati nei nostri dipartimenti.</p>
+                        </div>
+
+                        <!-- Mini FAQ o info extra -->
+                        <div class="mt-12 bg-white p-8 border border-gray-100 shadow-sm relative">
+                            <div class="absolute top-0 left-0 w-full h-[2px] bg-secondary"></div>
+                            <h3 class="font-headline text-xl text-primary mb-3">Requisiti preferenziali</h3>
+                            <ul class="text-text-muted font-light space-y-2 list-none">
+                                <li class="flex items-center"><span class="material-symbols-outlined text-secondary text-lg mr-2">check</span> Voto di laurea eccellente</li>
+                                <li class="flex items-center"><span class="material-symbols-outlined text-secondary text-lg mr-2">check</span> Ottima conoscenza dell'inglese (C1/C2)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Modulo Candidatura (Stile simile al contatti, ma su fondo chiaro) -->
+                    <div class="lg:col-span-7 bg-white p-8 md:p-14 shadow-2xl shadow-primary/5 border border-gray-100 reveal delay-100">
+                       <form class="space-y-8 md:space-y-10" id="form-lavora-con-noi">
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+        <div class="relative group">
+            <label class="block text-[10px] uppercase tracking-[0.2em] text-text-muted mb-2">NOME E COGNOME *</label>
+            <input id="cand-nome" class="custom-input w-full bg-transparent border-0 border-b border-gray-300 p-0 py-2 text-text-main focus:ring-0 text-base md:text-lg font-light placeholder-gray-400 transition-colors" placeholder="Mario Rossi" type="text" required />
+            <div class="input-border absolute bottom-0 left-0 h-[2px] bg-secondary"></div>
+        </div>
+        <div class="relative group">
+            <label class="block text-[10px] uppercase tracking-[0.2em] text-text-muted mb-2">TELEFONO</label>
+            <input id="cand-telefono" class="custom-input w-full bg-transparent border-0 border-b border-gray-300 p-0 py-2 text-text-main focus:ring-0 text-base md:text-lg font-light placeholder-gray-400 transition-colors" placeholder="+39 000 0000000" type="tel" />
+            <div class="input-border absolute bottom-0 left-0 h-[2px] bg-secondary"></div>
+        </div>
+    </div>
+
+    <div class="relative group">
+        <label class="block text-[10px] uppercase tracking-[0.2em] text-text-muted mb-2">EMAIL *</label>
+        <input id="cand-email" class="custom-input w-full bg-transparent border-0 border-b border-gray-300 p-0 py-2 text-text-main focus:ring-0 text-base md:text-lg font-light placeholder-gray-400 transition-colors" placeholder="mario.rossi@email.it" type="email" required />
+        <div class="input-border absolute bottom-0 left-0 h-[2px] bg-secondary"></div>
+    </div>
+
+    <div class="relative group">
+        <label class="block text-[10px] uppercase tracking-[0.2em] text-text-muted mb-2">POSIZIONE / AREA DI INTERESSE</label>
+        <select id="cand-posizione" class="custom-input w-full bg-transparent border-0 border-b border-gray-300 p-0 py-2 text-text-main focus:ring-0 text-base md:text-lg font-light appearance-none cursor-pointer" required>
+            <option value="" disabled selected>Seleziona un'area...</option>
+            <option>Avvocato - Diritto Penale d'Impresa</option>
+            <option>Avvocato - Compliance 231</option>
+            <option>Avvocato - Privacy</option>
+            <option>Praticante Avvocato</option>
+            <option>Assistente / Segreteria</option>
+            <option>Candidatura Spontanea (Generale)</option>
+        </select>
+        <span class="material-symbols-outlined absolute right-0 bottom-2 text-gray-400 pointer-events-none">expand_more</span>
+        <div class="input-border absolute bottom-0 left-0 h-[2px] bg-secondary"></div>
+    </div>
+
+    <div class="relative group">
+        <label class="block text-[10px] uppercase tracking-[0.2em] text-text-muted mb-2">MESSAGGIO / LETTERA DI PRESENTAZIONE</label>
+        <textarea id="cand-messaggio" class="custom-input w-full bg-transparent border-0 border-b border-gray-300 p-0 py-2 text-text-main focus:ring-0 text-base md:text-lg font-light placeholder-gray-400 resize-none" placeholder="Scrivi qui la tua presentazione..." rows="4"></textarea>
+        <div class="input-border absolute bottom-[5px] left-0 h-[2px] bg-secondary"></div>
+    </div>
+
+    <div class="pt-4 pb-2 border-b border-gray-100">
+        <label class="block text-[10px] uppercase tracking-[0.2em] text-text-muted mb-3">ALLEGA IL TUO CURRICULUM (PDF, DOCX) *</label>
+        <div class="flex items-center space-x-4">
+            <label class="file-upload-wrapper bg-surface-alt border border-gray-200 text-text-main px-6 py-3 text-[11px] uppercase tracking-[0.1em] font-medium hover:bg-gray-100 hover:border-gray-300 transition-colors flex items-center group">
+                <span class="material-symbols-outlined text-lg mr-2 text-secondary group-hover:scale-110 transition-transform">upload_file</span>
+                Scegli File
+                <input type="file" required class="file-upload-input w-0 h-0 absolute opacity-0" id="cv-upload" accept=".pdf,.doc,.docx" onchange="document.getElementById('file-name').textContent = this.files[0] ? this.files[0].name : 'Nessun file selezionato'">
+            </label>
+            <span id="file-name" class="font-light text-sm text-text-muted italic truncate max-w-[200px] md:max-w-xs">Nessun file selezionato</span>
+        </div>
+    </div>
+
+    <div class="flex items-start mt-6">
+        <div class="flex items-center h-5">
+            <input id="privacy" type="checkbox" required class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-secondary text-secondary">
+        </div>
+        <label for="privacy" class="ml-3 text-xs md:text-sm font-light text-text-muted leading-snug">
+            Dichiaro di aver preso visione dell'<a href="privacy-policy.html" class="text-secondary hover:underline">informativa sulla privacy</a> e acconsento al trattamento dei dati personali per le finalità di recruiting e selezione del personale.
+        </label>
+    </div>
+
+    <button id="btn-submit-cv" class="w-full bg-primary text-white py-5 text-[10px] md:text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-secondary transition-all duration-500 mt-6" type="submit">
+        INVIA CANDIDATURA
+    </button>
+</form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+        <!-- Footer -->
+    <footer class="bg-surface py-12 md:py-16 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0 text-center md:text-left">
+                <div class="text-primary font-headline text-xl md:text-2xl tracking-tight">
+                    CCM STUDIO LEGALE
+                </div>
+                <div class="flex flex-wrap justify-center gap-6 md:gap-8">
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300" href="note-legali.html">NOTE LEGALI</a>
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300" href="privacy-policy.html">PRIVACY POLICY</a>
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300" href="cookie-policy.html">COOKIE POLICY</a>
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300" href="lavora-con-noi.html">LAVORA CON NOI</a>
+                    <a class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] font-medium text-text-muted hover:text-primary transition-colors duration-300" href="https://www.linkedin.com/feed" target="_blank">LINKEDIN</a>
+                </div>
+                <div class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-text-muted">
+                    © 2024 CCM Studio Legale. Tutti i diritti riservati. | P.IVA 04277020402
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript per Interazioni -->
+    <script>
+        document.getElementById("form-lavora-con-noi").addEventListener("submit", function(e) {
+        e.preventDefault();
+        
+        const btnSubmit = document.getElementById("btn-submit-cv");
+        btnSubmit.innerText = "INVIO IN CORSO...";
+        btnSubmit.disabled = true;
+        btnSubmit.style.opacity = "0.7";
+
+        // Preleviamo i dati testuali
+        const payload = {
+            nome: document.getElementById("cand-nome").value,
+            telefono: document.getElementById("cand-telefono").value,
+            email: document.getElementById("cand-email").value,
+            posizione: document.getElementById("cand-posizione").value,
+            messaggio: document.getElementById("cand-messaggio").value,
+            fileBase64: null,
+            fileName: null,
+            mimeType: null
+        };
+
+        const fileInput = document.getElementById("cv-upload");
+        const file = fileInput.files[0];
+
+        // L'URL del NUOVO script Google per le candidature
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyd-Smsa8UI1eG66ITlJ2d_nxQCY6pIIU5LbckXC0IOBSNt-TYrTPEj0a6QR0q72BHUDA/exec";
+
+        // Funzione per l'invio fisico dei dati
+        const inviaDati = () => {
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                body: JSON.stringify(payload),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    btnSubmit.innerText = "CANDIDATURA INVIATA CON SUCCESSO!";
+                    btnSubmit.style.backgroundColor = "#a38757"; // Colore Secondary
+                    document.getElementById("form-lavora-con-noi").reset();
+                    document.getElementById("file-name").textContent = "Nessun file selezionato";
+                } else {
+                    alert("Si è verificato un errore: " + data.error);
+                    btnSubmit.innerText = "INVIA CANDIDATURA";
+                    btnSubmit.disabled = false;
+                    btnSubmit.style.opacity = "1";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Errore di rete. Riprova più tardi.");
+                btnSubmit.innerText = "INVIA CANDIDATURA";
+                btnSubmit.disabled = false;
+                btnSubmit.style.opacity = "1";
+            });
+        };
+
+        // Se l'utente ha caricato un file, lo convertiamo in testo (Base64) prima di inviare
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Rimuoviamo l'intestazione data:mime/type;base64, per avere solo il codice puro
+                payload.fileBase64 = e.target.result.split(",")[1];
+                payload.fileName = file.name;
+                payload.mimeType = file.type;
+                inviaDati();
+            };
+            reader.readAsDataURL(file);
+        } else {
+            // Se in qualche modo ha saltato l'obbligo del file (fallback)
+            inviaDati();
+        }
+    });
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- LOGICA MENU MOBILE ---
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileOverlay = document.getElementById('mobile-menu-overlay');
+            const body = document.body;
+            
+            mobileBtn.addEventListener('click', () => {
+                body.classList.toggle('menu-open');
+                if (body.classList.contains('menu-open')) {
+                    body.style.overflow = 'hidden';
+                } else {
+                    body.style.overflow = '';
+                }
+            });
+
+            // Chiusura rapida menu
+            const mobileLinks = mobileOverlay.querySelectorAll('a, button');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    body.classList.remove('menu-open');
+                    body.style.overflow = '';
+                });
+            });
+
+            // --- ANIMAZIONI ALLO SCORRIMENTO ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -20px 0px" };
+
+            const revealOnScroll = new IntersectionObserver(function (entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => revealOnScroll.observe(el));
+
+            // --- SFONDO NAVBAR DINAMICO ---
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 30) {
+                    navbar.classList.add('nav-scrolled');
+                    navbar.classList.remove('nav-transparent', 'border-white/10');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                    navbar.classList.add('nav-transparent', 'border-white/10');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
