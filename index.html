@@ -7,17 +7,10 @@
     <title>CCM Studio Legale</title>
     <link rel="icon" type="image/png" href="img/logo/logo.png" />
     <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="assets/js/tailwindcss.js"></script>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
-
+    <link rel="stylesheet" href="assets/fonts/fonts.css" />
     <!-- Tailwind Config -->
     <script id="tailwind-config">
         tailwind.config = {
@@ -731,6 +724,15 @@
                                 class="custom-input w-full bg-transparent border-0 border-b border-white/20 p-0 py-2 text-white focus:ring-0 text-base md:text-lg font-light placeholder-white/20 resize-none"
                                 placeholder="Scrivi qui il tuo messaggio..." rows="3"></textarea>
                             <div class="input-border absolute bottom-[5px] left-0 h-[1px] bg-secondary"></div>
+                        </div>
+
+                        <div class="flex items-start mt-4">
+                            <div class="flex items-center h-5 mt-1">
+                                <input id="privacy-index" name="privacy" type="checkbox" required class="w-4 h-4 border border-white/30 rounded bg-transparent focus:ring-2 focus:ring-secondary text-secondary cursor-pointer">
+                            </div>
+                            <label for="privacy-index" class="ml-3 text-[10px] md:text-[11px] font-light text-white/70 leading-relaxed cursor-pointer">
+                                Ho letto e compreso l'<a href="privacy-policy.html" class="text-secondary hover:text-white transition-colors underline">Informativa sulla Privacy</a> e acconsento al trattamento dei miei dati personali.
+                            </label>
                         </div>
 
                         <button id="submit-btn"
